@@ -6,6 +6,7 @@
     "prisma": "^5.7.0"
   },
   "scripts": {
+    "seed": "npx prisma migrate reset && node prisma/seed.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
