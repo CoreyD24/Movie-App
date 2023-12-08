@@ -35,3 +35,5 @@ model Person {
   movies_acted    Movie[] @relation("MovieActors")
   movies_directed Movie[]
 }
+
+
