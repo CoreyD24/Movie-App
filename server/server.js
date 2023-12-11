@@ -1,7 +1,8 @@
 const express = require("express");
-require('dotenv').config()
+require("dotenv").config();
 const morgan = require("morgan");
 const jwt = require("jsonwebtoken");
+const path = require("path");
 
 const app = express();
 const port = 3000;
@@ -12,16 +13,17 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Check for tokens
- app.use((req, res, next) => {  
+app.use(express.static(path.join(__dirname, "..", "client/dist")));
 
+// Check for tokens
+app.use((req, res, next) => {
   //Check the headers for an authorization token
   const auth = req.headers.authorization;
-  const token = auth?.startsWith("Bearer ") ? auth.slice(7) : null; 
+  const token = auth?.startsWith("Bearer ") ? auth.slice(7) : null;
 
-  try{
+  try {
     req.user = jwt.verify(token, process.env.SECRET);
-  } catch{
+  } catch {
     req.user = null;
   }
 
@@ -29,10 +31,9 @@ app.use(express.urlencoded({ extended: true }));
   console.log("USER: ", req.user);
 
   next();
- });
+});
 
 //
-
 
 app.use("/api", require("./api"));
 app.use("/auth", require("./auth"));
