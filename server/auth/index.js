@@ -21,7 +21,7 @@ router.post("/register", async (req, res) => {
   try {
     const result = await prisma.user.create({
       data: {
-        userName: req.body.userName,
+        username: req.body.username,
         password: hashed,
       },
     });
@@ -35,10 +35,11 @@ router.post("/register", async (req, res) => {
 });
 
 //check if user is in database and if passwords match
+// /auth/login 
 router.post("/login", async (req, res) => {
   const user = await prisma.user.findUnique({
     where: {
-      userName: req.body.userName,
+      username: req.body.username,
     },
   });
 
